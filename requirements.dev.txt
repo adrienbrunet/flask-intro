@@ -11,3 +11,4 @@ responses==0.10.6
 testfixtures==6.10.0
 black==19.3b0
 pytest-watch
+pytest-flask
