@@ -12,3 +12,4 @@ testfixtures==6.10.0
 black==19.3b0
 pytest-watch
 pytest-flask
+pytest-flask-sqlalchemy
