@@ -5,10 +5,17 @@ from flask import Flask, render_template
 from flask_migrate import Migrate, MigrateCommand
 from flask_sqlalchemy import SQLAlchemy
 
+
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 
+
 def create_app():
+    from tasks.models import Task
+
+
     app = Flask(__name__)
 
     @app.route('/')
@@ -19,14 +26,17 @@ def create_app():
     def user(name):
         return render_template('user.html', name=name)
 
-    @app.route('/professor')
+    @app.route('/todoz')
     def my_api_route():
+        tasks = Task.query.all()
         return {
-            "name": "Adrien",
-            "birthday": "02 January",
-            "age": 85,
-            "sex": None,
-            "friends": ["Amadou", "Mariam"]
+            "results": [
+                {
+                    field: getattr(task, field)
+                    for field in Task.__table__.columns.keys()
+                }
+                for task in tasks
+            ]
         }
 
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'data.sqlite')}"
@@ -34,7 +44,6 @@ def create_app():
 
     db.init_app(app)
 
-    from tasks.models import Task
 
     migrate = Migrate(app, db)
     return app
