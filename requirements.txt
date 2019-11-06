@@ -8,3 +8,5 @@ flask-sqlalchemy
 flask-migrate
 marshmallow
 marshmallow-sqlalchemy
+flask-marshmallow
+flask-smorest
